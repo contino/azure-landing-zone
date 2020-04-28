@@ -101,7 +101,7 @@
   "outputs": {
     "controlPlaneFQDN": {
       "type": "string",
-      "value": "[reference(parameters('clusterName')).fqdn]"
+      "value": "[reference(variables('clusterName')).fqdn]"
     }
   }
 }
