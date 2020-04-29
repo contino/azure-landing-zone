@@ -27,11 +27,11 @@ stages:
     - task: AzureCLI@2
       displayName: Run Azure CLI
       inputs:
-      azureSubscription: $(subscription)
-      scriptType: pscore
-      scriptLocation: inlineScript
-      inlineScript: |
-        az group create -l $(location) -n $(aksResourceGroup)
+        azureSubscription: $(subscription)
+        scriptType: pscore
+        scriptLocation: inlineScript
+        inlineScript: |
+          az group create -l $(location) -n $(aksResourceGroup)
 
 
   - job: ARMDeployment
