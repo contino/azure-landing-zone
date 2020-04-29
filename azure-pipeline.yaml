@@ -7,16 +7,16 @@ trigger:
       - README.md
 variables:
   vmImage: 'ubuntu-latest'
-  aksResourceGroup: ''
+  aksResourceGroup: 'aks-demo'
   acrResourceGroup: ''
-  kvResourceGrup: ''
+  kvResourceGroup: ''
   location: 'UK South'
   subscription: 'Visual Studio Enterprise - MPN'
   serviceConnection: 'infra-demo'
 
 stages:
 - stage: DeployKVARM
-  displayName: 'Create KeyVault'
+  displayName: 'Create AKS Cluster'
   jobs:
   - job: ARMDeployment
     displayName: Deploy ARM Template
@@ -25,11 +25,11 @@ stages:
       vmImage: $(vmImage)
     steps:
     - task: AzureResourceGroupDeployment@2
-      displayName: 'Azure Deployment KeyVault: Create or Update'
+      displayName: 'Azure Deployment AKS Cluster: Create or Update'
       inputs:
         azureSubscription: $(serviceConnection)
         subscriptionName: $(subscription)
-        resourceGroupName: $(kvResourceGrup)
+        resourceGroupName: $(aksResourceGroup:)
         location: $(location)
-        cmsfile: 'aks_template/azuredeploy.json'
-        csmParametersFile: 'keyvault_template/azuredeploy.parameters.json'
+        cmsfile: 'aks_template/akseploy.json'
+        csmParametersFile: 'aks_template/aksdeploy.parameters.json'
