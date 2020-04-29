@@ -27,7 +27,7 @@ stages:
     - task: AzureCLI@2
       displayName: Run Azure CLI
       inputs:
-        azureSubscription: $(subscription)
+        azureSubscription: $(serviceConnection)
         scriptType: pscore
         scriptLocation: inlineScript
         inlineScript: |
