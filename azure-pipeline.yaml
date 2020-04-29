@@ -49,5 +49,5 @@ stages:
         subscriptionName: $(subscription)
         resourceGroupName: $(aksResourceGroup)
         location: $(location)
-        cmsfile: 'aks_template/aksdeploy.json'
+        cmsFile: 'aks_template/aksdeploy.json'
         csmParametersFile: 'aks_template/aksdeploy.parameters.json'
