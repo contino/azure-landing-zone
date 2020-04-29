@@ -3,7 +3,7 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "clusterName": {
-      "value": "akscluster"
+      "value": "infraaks3vouavntyiekrq"
     },
     "dnsPrefix": {
       "value": "akscluster"
