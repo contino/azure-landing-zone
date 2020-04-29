@@ -1,0 +1,15 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "keyVaultName": {
+      "value": "infrakv3vouavntyiekr"
+    },
+    "objectId": {
+      "value": "a6d4a9d1-4669-4d99-b9f8-ccde09ca065d"
+    },
+    "tenantId": {
+      "value": "6be52c73-6d54-4a4f-be49-dd6b27120920"
+    }
+  }
+}

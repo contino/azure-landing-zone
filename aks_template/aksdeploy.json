@@ -70,15 +70,12 @@
       }
     }
   },
-  "variables": {
-    "clusterName": "[toLower( concat(parameters('clusterName'), uniqueString(resourceGroup().id) ) )]"
-  },
   "resources": [
     {
       "apiVersion": "2018-03-31",
       "type": "Microsoft.ContainerService/managedClusters",
       "location": "[parameters('location')]",
-      "name": "[variables('clusterName')]",
+      "name": "[parameters('clusterName')]",
       "properties": {
         "dnsPrefix": "[parameters('dnsPrefix')]",
         "agentPoolProfiles": [
@@ -92,8 +89,8 @@
           }
         ],
         "servicePrincipalProfile": {
-          "clientId": "[parameters('servicePrincipalClientId')]",
-          "Secret": "[parameters('servicePrincipalClientSecret')]"
+          "clientId": "msi",
+          "Secret": "null"
         }
       }
     }
