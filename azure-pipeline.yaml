@@ -23,6 +23,7 @@ stages:
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
     pool:
       vmImage: $(vmImage)
+
     steps:
     - task: AzureCLI@2
       displayName: Run Azure CLI
@@ -31,7 +32,7 @@ stages:
         scriptType: pscore
         scriptLocation: inlineScript
         inlineScript: |
-          az group create -l $(location) -n $(aksResourceGroup)
+          az group create -l uksouth -n $(aksResourceGroup)
 
 
   - job: ARMDeployment
