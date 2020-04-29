@@ -14,11 +14,27 @@ variables:
   subscription: 'Visual Studio Enterprise - MPN'
   serviceConnection: 'infra-demo'
 
-stages:
 - stage: DeployKVARM
   displayName: 'Create AKS Cluster'
   jobs:
+  - job: RGDeployment
+    displayName: Create Resource Group
+    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+    pool:
+      vmImage: $(vmImage)
+    steps:
+    - task: AzureCLI@2
+      displayName: Run Azure CLI
+      inputs:
+      azureSubscription: $(subscription)
+      scriptType: pscore
+      scriptLocation: inlineScript
+      inlineScript: |
+        az group create -l $(location) -n $(aksResourceGroup)
+
+
   - job: ARMDeployment
+    dependsOn: RGDeployment
     displayName: Deploy ARM Template
     condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
     pool:
