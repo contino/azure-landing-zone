@@ -73,37 +73,36 @@ stages:
             azurePowerShellVersion: latestVersion
 
 
-- stage: DeployAKS
-  displayName: 'Create AKS Cluster'
-  jobs:
-  - job: AKSRGDeployment
-    displayName: Create Resource Group
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
-    pool:
-      vmImage: $(vmImage)
+  - stage: DeployAKS
+    displayName: 'Create AKS Cluster'
+    jobs:
+    - job: AKSRGDeployment
+      displayName: Create Resource Group
+      pool:
+        vmImage: $(vmImage)
 
-    steps:
-    - task: AzureCLI@2
-      displayName: Run Azure CLI
-      inputs:
-        azureSubscription: $(serviceConnection)
-        scriptType: pscore
-        scriptLocation: inlineScript
-        inlineScript: |
-          az group create -l uksouth -n $(aksResourceGroup)
+      steps:
+      - task: AzureCLI@2
+        displayName: Run Azure CLI
+        inputs:
+          azureSubscription: $(serviceConnection)
+          scriptType: pscore
+          scriptLocation: inlineScript
+          inlineScript: |
+            az group create -l uksouth -n $(aksResourceGroup)
 
 
-  - job: ARMDeployment
-    dependsOn: AKSRGDeployment
-    displayName: Creake AKS
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
-    pool:
-      vmImage: $(vmImage)
-    steps:
-    - task: AzureResourceGroupDeployment@2
-      inputs:
-        azureSubscription: $(serviceConnection)
-        resourceGroupName: $(aksResourceGroup)
-        location: $(location)
-        csmFile: 'aks_template/aksdeploy.json'
-        csmParametersFile: 'aks_template/aksdeploy.parameters.json'
+    - job: ARMDeployment
+      dependsOn: AKSRGDeployment
+      displayName: Creake AKS
+      pool:
+        vmImage: $(vmImage)
+
+      steps:
+      - task: AzureResourceGroupDeployment@2
+        inputs:
+          azureSubscription: $(serviceConnection)
+          resourceGroupName: $(aksResourceGroup)
+          location: $(location)
+          csmFile: 'aks_template/aksdeploy.json'
+          csmParametersFile: 'aks_template/aksdeploy.parameters.json'
