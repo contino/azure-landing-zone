@@ -9,7 +9,7 @@ param (
 $spn_exist = Get-AzADApplication -DisplayName $spnName -ErrorAction SilentlyContinue
 
 if($null -eq $spn_exist){
-    $sp = New-AzADServicePrincipal -DisplayName $spnName
+    $sp = New-AzADServicePrincipal -DisplayName $spnName -ErrorAction SilentlyContinue
 
     Write-Host "Adding App ID in Keyvault"
     $appId = $sp.ApplicationId | ConvertTo-SecureString -AsPlainText -Force
