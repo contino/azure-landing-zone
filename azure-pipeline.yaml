@@ -139,3 +139,22 @@ stages:
           location: $(location)
           csmFile: 'container_template/acrdeploy.json'
           csmParametersFile: 'container_template/acrdeploy.parameters.json'
+
+    - job: ACRIntegration
+      dependsOn: ARMDeployment
+      displayName: Integrate ACR to AKS Cluster
+      pool:
+        vmImage: $(vmImage)
+      variables:
+        aksName: 'infraacr3vouavntyiekru'
+        acrName: 'infraacr3vouavntyiekru'
+
+      steps:
+      - task: AzureCLI@2
+        displayName: Run Azure CLI
+        inputs:
+          azureSubscription: $(serviceConnection)
+          scriptType: pscore
+          scriptLocation: inlineScript
+          inlineScript: |
+            az aks update -n $(aksName) -g $(aksResourceGroup:) --attach-acr $(acrName)
