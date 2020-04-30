@@ -65,7 +65,7 @@ stages:
           inputs:
             azureSubscription: $(serviceConnection)
             scriptType: 'filePath'
-            scriptPath: 'scripts/aksspn.ps1'
+            scriptPath: './scripts/aksspn.ps1'
             scriptArguments:
               -KVName $(kvName) `
               -spnName $(spnName)
