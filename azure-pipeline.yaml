@@ -51,7 +51,7 @@ stages:
   - stage: CreateAKSSPN
     displayName: 'Create AKS SPN & Add To KeyVault'
     jobs:
-      - job: Run PowerShell Script
+      - job: RunPowerShellScript
         pool:
           vmImage: $(vmImage)
         variables:
