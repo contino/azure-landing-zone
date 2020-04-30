@@ -9,7 +9,7 @@ trigger:
 variables:
   vmImage: 'ubuntu-latest'
   aksResourceGroup: 'aks-demo'
-  acrResourceGroup: ''
+  acrResourceGroup: 'acr-demo'
   kvResourceGroup: 'kv-demo'
   location: 'UK South'
   subscription: 'Visual Studio Enterprise - MPN'
@@ -106,3 +106,36 @@ stages:
           location: $(location)
           csmFile: 'aks_template/aksdeploy.json'
           csmParametersFile: 'aks_template/aksdeploy.parameters.json'
+
+  - stage: DeployACR
+    displayName: 'Create Container Registry'
+    jobs:
+    - job: ACRRGDeployment
+      displayName: Create Resource Group
+      pool:
+        vmImage $(vmImage)
+
+      steps:
+      - task: AzureCLI@2
+        displayName: Run Azure CLI
+        inputs:
+          azureSubscription: $(serviceConnection)
+          scriptType: pscore
+          scriptLocation: inlineScript
+          inlineScript: |
+            az group create -l uksouth -n $(acrResourceGroup)
+
+    - job: ARMDeployment
+      dependsOn: ACRRGDeployment
+      displayName: Create ACR
+      pool:
+        vmImage: $(vmImage)
+
+      steps:
+      - task: AzureResourceGroupDeployment@2
+        inputs:
+          azureSubscription: $(serviceConnection)
+          resourceGroupName: $(acrResourceGroup)
+          location: $(location)
+          csmFile: 'container_template/acrdeploy.json'
+          csmParametersFile: 'container_template/acrdeploy.parameters.json'
