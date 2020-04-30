@@ -9,45 +9,80 @@ variables:
   vmImage: 'ubuntu-latest'
   aksResourceGroup: 'aks-demo'
   acrResourceGroup: ''
-  kvResourceGroup: ''
+  kvResourceGroup: 'kv-demo'
   location: 'UK South'
   subscription: 'Visual Studio Enterprise - MPN'
   serviceConnection: 'infra-demo'
 
 stages:
-- stage: DeployAKS
-  displayName: 'Create AKS Cluster'
-  jobs:
-  - job: RGDeployment
-    displayName: Create Resource Group
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
-    pool:
-      vmImage: $(vmImage)
 
-    steps:
-    - task: AzureCLI@2
-      displayName: Run Azure CLI
-      inputs:
-        azureSubscription: $(serviceConnection)
-        scriptType: pscore
-        scriptLocation: inlineScript
-        inlineScript: |
-          az group create -l uksouth -n $(aksResourceGroup)
+  - stage: DeployKV
+    displayName: 'Create KeyVault'
+    jobs:
+      - job: RGDeployment
+        displayName: Create Resource Group
+        condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+        pool:
+          vmImage: $(vmImage)
+
+        steps:
+        - task: AzureCLI@2
+          displayName: Run Azure CLI
+          inputs:
+            azureSubscription: $(serviceConnection)
+            scriptType: pscore
+            scriptLocation: inlineScript
+            inlineScript: |
+              az group create -l uksouth -n $(kvResourceGroup)
+
+      - job: ARMDeployment
+        dispayName: Create or Update KeyVault
+        condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+        pool:
+          vmImage: $(vmImage)
+
+        steps:
+        - task: AzureResourceGroupDeployment@2
+          inputs:
+            azureSubscription: $(serviceConnection)
+            resourceGroupName: $(kvResourceGroup)
+            location: $(location)
+            csmFile: 'keyvault_template/kvdeploy.json'
+            csmParametersFile: 'keyvault_template/kvdeploy.parameters.json'
 
 
-  - job: ARMDeployment
-    dependsOn: RGDeployment
-    displayName: Deploy ARM Template
-    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
-    pool:
-      vmImage: $(vmImage)
-    steps:
-    - task: AzureResourceGroupDeployment@2
-      displayName: 'Azure Deployment AKS Cluster: Create or Update'
-      inputs:
-        azureSubscription: $(serviceConnection)
-        subscriptionName: $(subscription)
-        resourceGroupName: $(aksResourceGroup)
-        location: $(location)
-        csmFile: 'aks_template/aksdeploy.json'
-        csmParametersFile: 'aks_template/aksdeploy.parameters.json'
+#- stage: DeployAKS
+#  displayName: 'Create AKS Cluster'
+#  jobs:
+#  - job: RGDeployment
+#    displayName: Create Resource Group
+#    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+#    pool:
+#      vmImage: $(vmImage)
+#
+#    steps:
+#    - task: AzureCLI@2
+#      displayName: Run Azure CLI
+#      inputs:
+#        azureSubscription: $(serviceConnection)
+#        scriptType: pscore
+#        scriptLocation: inlineScript
+#        inlineScript: |
+#          az group create -l uksouth -n $(aksResourceGroup)
+
+
+#  - job: ARMDeployment
+#    dependsOn: RGDeployment
+#    displayName: Creake AKS
+#    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+#    pool:
+#      vmImage: $(vmImage)
+#    steps:
+#    - task: AzureCLI@2
+#      displayName: Run Azure CLI
+#      inputs:
+#        azureSubscription: $(serviceConnection)
+#        scriptType: pscore
+#        scriptLocation: inlineScript
+#        inlineScript: |
+#          az group create -l uksouth -n $(aksResourceGroup)

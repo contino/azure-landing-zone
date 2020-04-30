@@ -89,8 +89,8 @@
           }
         ],
         "servicePrincipalProfile": {
-          "clientId": "msi",
-          "Secret": "null"
+          "clientId": "[parameters('servicePrincipalClientId')]",
+          "Secret": "[parameters('servicePrincipalClientSecret')]"
         }
       }
     }
