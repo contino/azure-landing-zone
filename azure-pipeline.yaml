@@ -21,7 +21,6 @@ stages:
     jobs:
       - job: RGDeployment
         displayName: Create Resource Group
-        condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
         pool:
           vmImage: $(vmImage)
 
@@ -37,7 +36,6 @@ stages:
 
       - job: ARMDeployment
         displayName: Create or Update KeyVault
-        condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
         pool:
           vmImage: $(vmImage)
 
@@ -49,6 +47,26 @@ stages:
             location: $(location)
             csmFile: 'keyvault_template/kvdeploy.json'
             csmParametersFile: 'keyvault_template/kvdeploy.parameters.json'
+
+  - stage: CreateAKSSPN
+    displayName: 'Create AKS SPN & Add To KeyVault'
+    jobs:
+      - job: Run PowerShell Script
+        pool:
+          vmImage: $(vmImage)
+        variables:
+          kvName: 'infrakv3vouavntyiekr'
+          spnName: 'aks-demo'
+
+        steps:
+        - task: AzurePowerShell@4
+          inputs:
+            azureSubscription: $(serviceConneciton)
+            scriptType: 'filePath'
+            scriptPath: 'scripts\aksspn.ps1'
+            scriptArguments:
+              -KVName $(kvName) `
+              -spnName $(spnName)
 
 
 #- stage: DeployAKS
