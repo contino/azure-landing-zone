@@ -157,4 +157,4 @@ stages:
           scriptType: pscore
           scriptLocation: inlineScript
           inlineScript: |
-            az aks update -n $(aksName) -g $(aksResourceGroup:) --attach-acr $(acrName)
+            az aks update -n $(aksName) -g $(aksResourceGroup) --attach-acr $(acrName)
