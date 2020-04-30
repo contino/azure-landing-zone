@@ -113,7 +113,7 @@ stages:
     - job: ACRRGDeployment
       displayName: Create Resource Group
       pool:
-        vmImage $(vmImage)
+        vmImage: $(vmImage)
 
       steps:
       - task: AzureCLI@2
