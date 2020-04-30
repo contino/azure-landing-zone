@@ -69,6 +69,7 @@ stages:
             scriptArguments:
               -KVName $(kvName) `
               -spnName $(spnName)
+            azurePowerShellVersion: latestVersion
 
 
 #- stage: DeployAKS
