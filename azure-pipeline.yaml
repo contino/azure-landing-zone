@@ -148,7 +148,7 @@ stages:
         vmImage: $(vmImage)
       variables:
         aksName: 'infraaks3vouavntyiekrq'
-        acrName: '/subscriptions/$(subscriptionId)/resourceGroups/$(acrResourceGroup)/$(aksName)'
+        acrName: '/subscriptions/$(subscriptionId)/resourceGroups/$(acrResourceGroup)/infraacr3vouavntyiekru'
 
       steps:
       - task: AzureCLI@2
