@@ -62,7 +62,7 @@ stages:
         - task: AzurePowerShell@4
           displayName: Run PowerShell Task
           inputs:
-            azureSubscription: $(serviceConneciton)
+            azureSubscription: $(serviceConnection)
             scriptType: 'filePath'
             scriptPath: 'scripts\aksspn.ps1'
             scriptArguments:
