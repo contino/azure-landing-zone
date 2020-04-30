@@ -36,7 +36,7 @@ stages:
               az group create -l uksouth -n $(kvResourceGroup)
 
       - job: ARMDeployment
-        dispayName: Create or Update KeyVault
+        displayName: Create or Update KeyVault
         condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
         pool:
           vmImage: $(vmImage)
