@@ -17,37 +17,37 @@ variables:
 
 stages:
 
-  - stage: DeployKV
-    displayName: 'Create KeyVault'
-    jobs:
-      - job: RGDeployment
-        displayName: Create Resource Group
-        pool:
-          vmImage: $(vmImage)
-
-        steps:
-        - task: AzureCLI@2
-          displayName: Run Azure CLI
-          inputs:
-            azureSubscription: $(serviceConnection)
-            scriptType: pscore
-            scriptLocation: inlineScript
-            inlineScript: |
-              az group create -l uksouth -n $(kvResourceGroup)
-
-      - job: ARMDeployment
-        displayName: Create or Update KeyVault
-        pool:
-          vmImage: $(vmImage)
-
-        steps:
-        - task: AzureResourceGroupDeployment@2
-          inputs:
-            azureSubscription: $(serviceConnection)
-            resourceGroupName: $(kvResourceGroup)
-            location: $(location)
-            csmFile: 'keyvault_template/kvdeploy.json'
-            csmParametersFile: 'keyvault_template/kvdeploy.parameters.json'
+#  - stage: DeployKV
+#    displayName: 'Create KeyVault'
+#    jobs:
+#      - job: RGDeployment
+#        displayName: Create Resource Group
+#        pool:
+#          vmImage: $(vmImage)
+#
+#        steps:
+#        - task: AzureCLI@2
+#          displayName: Run Azure CLI
+#          inputs:
+#            azureSubscription: $(serviceConnection)
+#            scriptType: pscore
+#            scriptLocation: inlineScript
+#            inlineScript: |
+#              az group create -l uksouth -n $(kvResourceGroup)
+#
+#      - job: ARMDeployment
+#        displayName: Create or Update KeyVault
+#        pool:
+#          vmImage: $(vmImage)
+#
+#        steps:
+#        - task: AzureResourceGroupDeployment@2
+#          inputs:
+#            azureSubscription: $(serviceConnection)
+#            resourceGroupName: $(kvResourceGroup)
+#            location: $(location)
+#            csmFile: 'keyvault_template/kvdeploy.json'
+#            csmParametersFile: 'keyvault_template/kvdeploy.parameters.json'
 
   - stage: CreateAKSSPN
     displayName: 'Create AKS SPN & Add To KeyVault'
