@@ -11,7 +11,7 @@
     "servicePrincipalClientId": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/42fd229c-db07-42d3-be34-bc5c98826bc2/resourceGroups/kv-infra-demo/providers/Microsoft.KeyVault/vaults/infrakv3vouavntyiekr"
+          "id": "/subscriptions/42fd229c-db07-42d3-be34-bc5c98826bc2/resourceGroups/kv-demo/providers/Microsoft.KeyVault/vaults/infrakv3vouavntyiekr"
         },
         "secretName": "aksspid"
       }
@@ -19,7 +19,7 @@
     "servicePrincipalClientSecret": {
       "reference": {
         "keyVault": {
-          "id": "/subscriptions/42fd229c-db07-42d3-be34-bc5c98826bc2/resourceGroups/kv-infra-demo/providers/Microsoft.KeyVault/vaults/infrakv3vouavntyiekr"
+          "id": "/subscriptions/42fd229c-db07-42d3-be34-bc5c98826bc2/resourceGroups/kv-demo/providers/Microsoft.KeyVault/vaults/infrakv3vouavntyiekr"
         },
         "secretName": "aksspsecret"
       }
