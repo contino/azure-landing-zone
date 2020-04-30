@@ -60,6 +60,7 @@ stages:
 
         steps:
         - task: AzurePowerShell@4
+          displayName: Run PowerShell Task
           inputs:
             azureSubscription: $(serviceConneciton)
             scriptType: 'filePath'
