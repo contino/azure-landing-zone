@@ -4,6 +4,9 @@ param (
 [Parameter(Mandatory=$true)]
 [string]$spnName
 )
+
+Install-Module Az -Force -AllowClobber
+
 $spn_exist = Get-AzADApplication -DisplayName $spnName -ErrorAction SilentlyContinue
 
 if($null -eq $spn_exist){
