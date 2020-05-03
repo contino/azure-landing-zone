@@ -2,16 +2,18 @@ trigger:
   branches:
     include:
       - master
+      - feature/*
   paths:
     exclude:
       - README.md
 variables:
   vmImage: 'ubuntu-latest'
   aksResourceGroup: 'aks-demo'
-  acrResourceGroup: ''
+  acrResourceGroup: 'acr-demo'
   kvResourceGroup: 'kv-demo'
   location: 'UK South'
   subscription: 'Visual Studio Enterprise - MPN'
+  subscriptionId: '42fd229c-db07-42d3-be34-bc5c98826bc2'
   serviceConnection: 'infra-demo'
 
 stages:
@@ -19,7 +21,7 @@ stages:
   - stage: DeployKV
     displayName: 'Create KeyVault'
     jobs:
-      - job: RGDeployment
+      - job: KVRGDeployment
         displayName: Create Resource Group
         pool:
           vmImage: $(vmImage)
@@ -35,6 +37,7 @@ stages:
               az group create -l uksouth -n $(kvResourceGroup)
 
       - job: ARMDeployment
+        dependsOn: KVRGDeployment
         displayName: Create or Update KeyVault
         pool:
           vmImage: $(vmImage)
@@ -64,44 +67,95 @@ stages:
           inputs:
             azureSubscription: $(serviceConnection)
             scriptType: 'filePath'
-            scriptPath: 'scripts\aksspn.ps1'
+            scriptPath: './scripts/aksspn.ps1'
             scriptArguments:
               -KVName $(kvName) `
               -spnName $(spnName)
+            azurePowerShellVersion: latestVersion
 
 
-#- stage: DeployAKS
-#  displayName: 'Create AKS Cluster'
-#  jobs:
-#  - job: RGDeployment
-#    displayName: Create Resource Group
-#    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
-#    pool:
-#      vmImage: $(vmImage)
-#
-#    steps:
-#    - task: AzureCLI@2
-#      displayName: Run Azure CLI
-#      inputs:
-#        azureSubscription: $(serviceConnection)
-#        scriptType: pscore
-#        scriptLocation: inlineScript
-#        inlineScript: |
-#          az group create -l uksouth -n $(aksResourceGroup)
+  - stage: DeployAKS
+    displayName: 'Create AKS Cluster'
+    jobs:
+    - job: AKSRGDeployment
+      displayName: Create Resource Group
+      pool:
+        vmImage: $(vmImage)
+
+      steps:
+      - task: AzureCLI@2
+        displayName: Run Azure CLI
+        inputs:
+          azureSubscription: $(serviceConnection)
+          scriptType: pscore
+          scriptLocation: inlineScript
+          inlineScript: |
+            az group create -l uksouth -n $(aksResourceGroup)
 
 
-#  - job: ARMDeployment
-#    dependsOn: RGDeployment
-#    displayName: Creake AKS
-#    condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
-#    pool:
-#      vmImage: $(vmImage)
-#    steps:
-#    - task: AzureCLI@2
-#      displayName: Run Azure CLI
-#      inputs:
-#        azureSubscription: $(serviceConnection)
-#        scriptType: pscore
-#        scriptLocation: inlineScript
-#        inlineScript: |
-#          az group create -l uksouth -n $(aksResourceGroup)
+    - job: ARMDeployment
+      dependsOn: AKSRGDeployment
+      displayName: Creake AKS
+      pool:
+        vmImage: $(vmImage)
+
+      steps:
+      - task: AzureResourceGroupDeployment@2
+        inputs:
+          azureSubscription: $(serviceConnection)
+          resourceGroupName: $(aksResourceGroup)
+          location: $(location)
+          csmFile: 'aks_template/aksdeploy.json'
+          csmParametersFile: 'aks_template/aksdeploy.parameters.json'
+
+  - stage: DeployACR
+    displayName: 'Create Container Registry'
+    jobs:
+    - job: ACRRGDeployment
+      displayName: Create Resource Group
+      pool:
+        vmImage: $(vmImage)
+
+      steps:
+      - task: AzureCLI@2
+        displayName: Run Azure CLI
+        inputs:
+          azureSubscription: $(serviceConnection)
+          scriptType: pscore
+          scriptLocation: inlineScript
+          inlineScript: |
+            az group create -l uksouth -n $(acrResourceGroup)
+
+    - job: ARMDeployment
+      dependsOn: ACRRGDeployment
+      displayName: Create ACR
+      pool:
+        vmImage: $(vmImage)
+
+      steps:
+      - task: AzureResourceGroupDeployment@2
+        inputs:
+          azureSubscription: $(serviceConnection)
+          resourceGroupName: $(acrResourceGroup)
+          location: $(location)
+          csmFile: 'container_template/acrdeploy.json'
+          csmParametersFile: 'container_template/acrdeploy.parameters.json'
+
+    - job: ACRIntegration
+      dependsOn: ARMDeployment
+      displayName: Integrate ACR to AKS Cluster
+      pool:
+        vmImage: $(vmImage)
+      variables:
+        aksName: 'infraaks3vouavntyiekrq'
+        acrName: '/subscriptions/$(subscriptionId)/resourceGroups/$(acrResourceGroup)/providers/Microsoft.ContainerRegistry/registries/infraacr3vouavntyiekru'
+
+      steps:
+      - task: AzureCLI@2
+        displayName: Run Azure CLI
+        inputs:
+          azureSubscription: $(serviceConnection)
+          scriptType: pscore
+          scriptLocation: inlineScript
+          inlineScript: |
+            az aks update -n $(aksName) -g $(aksResourceGroup) --attach-acr $(acrName)

@@ -4,6 +4,8 @@ param (
 [Parameter(Mandatory=$true)]
 [string]$spnName
 )
+
+
 $spn_exist = Get-AzADApplication -DisplayName $spnName -ErrorAction SilentlyContinue
 
 if($null -eq $spn_exist){
@@ -15,4 +17,8 @@ if($null -eq $spn_exist){
 
     Write-Host "Adding AppID Secret"
     Set-AzKeyVaultSecret -VaultName $KVName -Name "aksspsecret" -SecretValue $sp.Secret
+}
+else
+{
+    Write-Host "SPN Exists"
 }
