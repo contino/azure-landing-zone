@@ -50,7 +50,8 @@
     "kubernetesVersion": {
       "metadata": {
         "description": "Kubernetes API version"
-      }
+      },
+      "type": "string"
     },
     "servicePrincipalClientId": {
       "metadata": {
