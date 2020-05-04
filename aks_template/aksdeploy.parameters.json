@@ -9,7 +9,7 @@
       "value": "akscluster"
     },
     "kubernetesVersion": {
-      "value": "1.14.10"
+      "value": "1.14.8"
     },
     "servicePrincipalClientId": {
       "reference": {
