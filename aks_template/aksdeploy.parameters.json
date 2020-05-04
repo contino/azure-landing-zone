@@ -8,6 +8,9 @@
     "dnsPrefix": {
       "value": "akscluster"
     },
+    "kubernetesVersion": {
+      "value": "1.14.10"
+    },
     "servicePrincipalClientId": {
       "reference": {
         "keyVault": {

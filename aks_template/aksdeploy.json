@@ -47,6 +47,11 @@
         "description": "The size of the Virtual Machine."
       }
     },
+    "kubernetesVersion": {
+      "metadata": {
+        "description": "Kubernetes API version"
+      }
+    },
     "servicePrincipalClientId": {
       "metadata": {
         "description": "Client ID (used by cloudprovider)"
@@ -77,6 +82,7 @@
       "location": "[parameters('location')]",
       "name": "[parameters('clusterName')]",
       "properties": {
+        "kubernetesVersion": "[parameters('kubernetesVersion')]",
         "dnsPrefix": "[parameters('dnsPrefix')]",
         "agentPoolProfiles": [
           {
