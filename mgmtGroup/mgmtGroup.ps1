@@ -8,8 +8,6 @@ function New-MgmtGroup
     foreach($obj in $loadVars.MgmtGroup.GroupName){
         if ($mgmtGroups -notcontains $obj.name) {
             if($obj.parent -eq $null) {
-                Write-Host "It is null"
-                Write-Host $obj.name
                 Write-Host "Creating New Management Group"
                 New-AzManagementGroup -GroupName $obj.name
 
@@ -21,9 +19,6 @@ function New-MgmtGroup
             }
             else
             {
-                Write-Host "It is not null"
-                Write-Host $obj.name
-                Write-Host $obj.parent
                 $mgmtGroups = (Get-AzManagementGroup).DisplayName
                 if($mgmtGroups -notcontains $obj.parent) {
                     Write-Host "Creating Parent Management Group"
