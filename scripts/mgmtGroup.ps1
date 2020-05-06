@@ -40,5 +40,5 @@ function New-MgmtGroup
 
     }
 }
-
+Get-Module Az.Resources
 New-MgmtGroup
