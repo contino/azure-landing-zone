@@ -1,0 +1,136 @@
+{
+  "properties": {
+    "template": {
+      "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+      "contentVersion": "1.0.0.0",
+      "parameters": {
+        "Organization_Name": {
+          "type": "string"
+        },
+        "KV-AccessPolicy": {
+          "type": "string"
+        },
+        "key-vault-name": {
+          "type": "string"
+        },
+        "SubscriptionId": {
+          "type": "string"
+        },
+        "oms-workspace-name": {
+          "type": "string"
+        }
+      },
+      "variables": {
+        "workSpaceRG": "[resourceGroup().Name]",
+        "deployment-prefix": "[concat(parameters('Organization_Name'), '-sharedsvcs')]",
+        "key-vault-name": "[concat(variables('deployment-prefix'), '-kv')]",
+        "worksspaceId": "[resourceId(parameters('SubscriptionId'),variables('workspaceRg'),'microsoft.operationalinsights/workspaces', parameters('oms-workspace-name'))]"
+      },
+      "resources": [
+        {
+          "type": "Microsoft.KeyVault/vaults",
+          "name": "[parameters('key-vault-name')]",
+          "apiVersion": "2016-10-01",
+          "location": "[resourceGroup().location]",
+          "tags": {
+            "displayName": "KeyVault"
+          },
+          "properties": {
+            "createMode": "default",
+            "enabledForDeployment": true,
+            "enabledForDiskEncryption": true,
+            "enabledForTemplateDeployment": true,
+            "tenantId": "[subscription().tenantId]",
+            "sku": {
+              "name": "premium",
+              "family": "A"
+            },
+            "networkAcls": {
+              "defaultAction": "Allow",
+              "bypass": "AzureServices",
+              "virtualNetworkRules": [
+
+              ],
+              "ipRules": [
+
+              ]
+            },
+            "accessPolicies": [
+              {
+                "objectId": "[parameters('KV-AccessPolicy')]",
+                "tenantId": "[subscription().tenantId]",
+                "permissions": {
+                  "keys": [
+                    "get",
+                    "list",
+                    "update",
+                    "create",
+                    "import",
+                    "delete",
+                    "recover",
+                    "backup",
+                    "restore"
+                  ],
+                  "secrets": [
+                    "get",
+                    "list",
+                    "set",
+                    "delete",
+                    "recover",
+                    "backup",
+                    "restore"
+                  ],
+                  "certificates": [
+                    "get",
+                    "list",
+                    "update",
+                    "create",
+                    "import",
+                    "delete",
+                    "recover",
+                    "deleteissuers",
+                    "recover",
+                    "managecontacts",
+                    "manageissuers",
+                    "getissuers",
+                    "listissuers",
+                    "setissuers"
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "outputs": {
+
+      }
+    },
+    "parameters": {
+      "Organization_Name": {
+        "value": "[parameters('Organization_Name')]"
+      },
+      "KV-AccessPolicy": {
+        "value": "[parameters('KV-AccessPolicy')]"
+      },
+      "key-vault-name" : {
+        "value": "[parameters('key-vault-name')]"
+      },
+      "SubscriptionId": {
+        "value": "[parameters('SubscriptionId')]"
+      },
+      "oms-workspace-name": {
+        "value": "[parameters('oms-workspace-name')]"
+      }
+    },
+    "dependsOn": [
+    ],
+    "resourceGroup": "SharedServices-RG",
+    "displayName": "Deploy Key Vault",
+    "description": "Deploy Key Vault for Secrets, Certs & Keys"
+  },
+  "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CAF-Migration-landing-zone/artifacts/artifact-template-keyvault--deploy",
+  "type": "Microsoft.Blueprint/blueprints/artifacts",
+  "name": "artifact-template-keyvault--deploy"
+}
