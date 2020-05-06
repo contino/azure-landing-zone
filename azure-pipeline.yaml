@@ -19,9 +19,9 @@ variables:
 
 stages:
   - stage: ManagementGroup
-    displayName: "Create or Update LZ Blueprint"
+    displayName: "Create or Update Management Group Task"
     jobs:
-      - job: BlueprintScript
+      - job: ManagementGroupScript
         pool:
           vmImage: $(vmImage)
         steps:
