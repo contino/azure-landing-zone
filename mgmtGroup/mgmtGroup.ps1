@@ -4,6 +4,7 @@ function New-MgmtGroup
     $file = (Get-ChildItem -Path "./mgmtGroup" | Where-Object {$_.Extension -eq ".json"})
     $loadVars = Get-Content -Path $file.FullName | ConvertFrom-Json
     $mgmtGroups = (Get-AzManagementGroup).DisplayName
+    Write-Host "JSON Object Set ..... + $($loadVars)"
 
     foreach($obj in $loadVars.MgmtGroup.GroupName){
         if ($mgmtGroups -notcontains $obj.name) {
