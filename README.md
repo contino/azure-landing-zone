@@ -14,12 +14,12 @@ More information on Azure Landing zone can be found <a href=https://docs.microso
 
 Building the Landing Zone was using Azure Blueprints. You can find great examples of Azure Blueprints <a href=https://github.com/Azure/azure-blueprints> here</a>
 
-##CI/CD Tool
+## CI/CD Tool
 The CI/CD tooling of choice is Azure DevOps. The pipeline is constructed as pipeline as code, you can find the CI/CD pipeline within `azure-pipeline.yaml`
 
 
 
-##Blueprints
+## Blueprints
 
 ####Prerequisites
 If you've never used Blueprints before, this can be little overwhelming. You can build your first blueprint with the UI to understand how everything works. You can try it at aka.ms/getblueprints and learn more about it in the docs or watch this <a href="https://www.youtube.com/watch?v=cQ9D-d6KkMY"> 15 minute overview.</a>
@@ -28,7 +28,7 @@ If you've never used Blueprints before, this can be little overwhelming. You can
 
 `Install-Module -Name Az.Blueprint`
 
-####Quickstart
+#### Quickstart
 To push blueprint definition to Azure
 
 `Import-AzBlueprintWithArtifact -Name LandingZone -ManagementGroupId "DevMG" -InputPath  ".\landingZone\blueprint"`
@@ -61,7 +61,7 @@ $rgArray = @{ SingleRG = $rgHash }
 New-AzBlueprintAssignment -Name "UniqueBlueprintAssignmentName" -Blueprint $publishedBp -Location eastus -SubscriptionId "00000000-1111-0000-1111-000000000000" -ResourceGroupParameter $rgArray -Parameter $parameters
 ```
 
-####Structure of blueprint artifacts
+#### Structure of blueprint artifacts
 A blueprint consists of the main blueprint json file and a series of artifact json files.
 The blueprint folder structure will be like the following:
 
@@ -74,12 +74,12 @@ Blueprint directory
  - more-artifacts.json
 ```
 
-#####Blueprint Folder
+##### Blueprint Folder
 The blueprint folder can be found `landingZone\blueprints`. Running the pipeline will execute `.\scripts\blueprint.ps1`
 
 The script is taking two parameters which are stored as hash table. The `KV-AccessPolicy` is the object ID of the Azure DevOps service connection (SPN) that assigns itself access once the Key Vault is created. The `SubscriptionId` is part of the resourceId when adding diagnostic settings to each of the resources. 
 
-##Management Groups
+## Management Groups
 As part of the repository having there is example of implementing Management Groups within Azure. The powershell script is located within `.\scripts\mgmtGroup.ps1` The script will look for json file located within `.\mgmtGroup\management.json` 
 
 ```json
@@ -112,19 +112,19 @@ The above image RootLevel is "Root Management Group"
 
 
 
-##Extra Resources
+## Extra Resources
 Part of the repository you will find ARM Template building out resources such as:
 
 1) Key Vault
 2) AKS Cluster
 3) ACR (Container Registry)
 
-####AKS
+#### AKS
 To interact with Azure APIs, AKS cluster requires service principal. A service principal is needed to dynamically create and managed other resources.
 
 Part of the infrastructure build service principal is created for the AKS cluster. The application id and the secret is then stored in the keyvault created to store the credentials. Once the container registry is created the container registry is then  attached to the AKS cluster.
 
-###Service Principal Creation
+### Service Principal Creation
 Part of this pipeline the service connection account was given permission to create service principal account.
 Permission required to create service principal accounts using service principal are:
 * The Service Principal requires Owner permission to the subscription 
