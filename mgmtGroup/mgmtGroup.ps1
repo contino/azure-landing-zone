@@ -39,7 +39,5 @@ function New-MgmtGroup
 
     }
 }
-Write-Host "installing Az Resources"
-Install-Module Az.Resources -Force -AllowClobber
-Import-Module Az.Resources
+
 New-MgmtGroup

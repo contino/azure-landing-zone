@@ -8,6 +8,7 @@ trigger:
       - README.md
 variables:
   vmImage: 'ubuntu-latest'
+  winImage: 'windows-latest'
   aksResourceGroup: 'aks-demo'
   acrResourceGroup: 'acr-demo'
   kvResourceGroup: 'kv-demo'
@@ -22,7 +23,7 @@ stages:
     jobs:
       - job: RunPowerShellScript
         pool:
-          vmImage: $(vmImage)
+          vmImage: $(winImage)
         steps:
           - task: AzurePowerShell@4
             displayName: Run PowerShell Task Create Mgmt
