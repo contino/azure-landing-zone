@@ -1,6 +1,9 @@
+Install-Module Az.Blueprint -Force -AllowClobber
+Import-Module Az.Blueprint
+
 #Push Blueprint definition to Azure
 
-Import-AzBlueprintWithArtifact -Name "LandingZone" -ManagementGroupId "Management" -InputPath .\landingZone\blueprints -Force
+Import-AzBlueprintWithArtifact -Name "LandingZone" -ManagementGroupId "Management" -InputPath ./landingZone/blueprints -Force
 $bp = Get-AzBlueprint -Name "LandingZone" -ManagementGroupId "Management"
 Publish-AzBlueprint -Blueprint $bp -Version 1.0
 

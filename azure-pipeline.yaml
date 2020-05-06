@@ -18,17 +18,17 @@ variables:
   serviceConnection: 'infra-demo'
 
 stages:
-  - stage: RunMgmtGroup
-    displayName: "Create Management Groups"
+  - stage: LZBlueprint
+    displayName: "Create or Update LZ Blueprint"
     jobs:
-      - job: RunPowerShellScript
+      - job: BlueprintScript
         pool:
-          vmImage: $(winImage)
+          - vmImage: (vmImage)
         steps:
           - task: AzurePowerShell@4
-            displayName: Run PowerShell Task Create Mgmt
+            displayName: Run LZ Blueprint Task
             inputs:
               azureSubscription: $(serviceConnection)
               scriptType: 'filePath'
-              scriptPath: '.\mgmtGroup\mgmtGroup.ps1'
+              scriptPath: './scripts/blueprint.ps1'
               azurePowerShellVersion: latestVersion
