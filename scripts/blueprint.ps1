@@ -2,7 +2,7 @@
 
 Import-AzBlueprintWithArtifact -Name "LandingZone" -ManagementGroupId "Management" -InputPath .\landingZone\blueprints -Force
 $bp = Get-AzBlueprint -Name "LandingZone" -ManagementGroupId "Management"
-Publish-AzBlueprint -Blueprint $bp -Version 1.2
+Publish-AzBlueprint -Blueprint $bp -Version 1.0
 
 # Get the version of the blueprint you want to assign, which we will pas to New-AzBlueprintAssignment
 $publishedBp = Get-AzBlueprint -ManagementGroupId "Management" -Name "LandingZone" -LatestPublished
