@@ -30,5 +30,5 @@ stages:
             inputs:
               azureSubscription: $(serviceConnection)
               scriptType: 'filePath'
-              scriptPath: '$(Build.SourcesDirectory)\mgmtGroup\mgmtGroup.ps1'
+              scriptPath: '.\mgmtGroup\mgmtGroup.ps1'
               azurePowerShellVersion: latestVersion
