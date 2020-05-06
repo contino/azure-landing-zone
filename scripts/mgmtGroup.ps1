@@ -40,7 +40,7 @@ function New-MgmtGroup
 
     }
 }
-Install-Module Az.Resources -Force -AllowNoClobber
+Install-Module Az.Resources -Force -AllowClobber
 Import-Module Az.Resources
 Get-Module Az.Resources
 #New-MgmtGroup
