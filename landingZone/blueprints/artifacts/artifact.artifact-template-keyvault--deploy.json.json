@@ -9,17 +9,28 @@
         },
         "KV-AccessPolicy": {
           "type": "string"
+        },
+        "key-vault-name": {
+          "type": "string"
+        },
+        "SubscriptionId": {
+          "type": "string"
+        },
+        "oms-workspace-name": {
+          "type": "string"
         }
       },
       "variables": {
+        "workSpaceRG": "[resourceGroup().Name]",
         "deployment-prefix": "[concat(parameters('Organization_Name'), '-sharedsvcs')]",
-        "key-vault-name": "[concat(variables('deployment-prefix'), '-kv')]"
+        "key-vault-name": "[concat(variables('deployment-prefix'), '-kv')]",
+        "worksspaceId": "[resourceId(parameters('SubscriptionId'),variables('workspaceRg'),'microsoft.operationalinsights/workspaces', parameters('oms-workspace-name'))]"
       },
       "resources": [
         {
           "type": "Microsoft.KeyVault/vaults",
-          "name": "[variables('key-vault-name')]",
-          "apiVersion": "2018-02-14",
+          "name": "[parameters('key-vault-name')]",
+          "apiVersion": "2016-10-01",
           "location": "[resourceGroup().location]",
           "tags": {
             "displayName": "KeyVault"
@@ -89,7 +100,7 @@
               }
             ]
           }
-        },
+        }
       ],
       "outputs": {
 
@@ -101,16 +112,25 @@
       },
       "KV-AccessPolicy": {
         "value": "[parameters('KV-AccessPolicy')]"
+      },
+      "key-vault-name" : {
+        "value": "[parameters('key-vault-name')]"
+      },
+      "SubscriptionId": {
+        "value": "[parameters('SubscriptionId')]"
+      },
+      "oms-workspace-name": {
+        "value": "[parameters('oms-workspace-name')]"
       }
     },
     "dependsOn": [
-
     ],
     "resourceGroup": "SharedServices-RG",
     "displayName": "Deploy Key Vault",
     "description": "Deploy Key Vault for Secrets, Certs & Keys"
   },
   "kind": "template",
+  "id": "/providers/Microsoft.Blueprint/blueprints/CAF-Migration-landing-zone/artifacts/artifact-template-keyvault--deploy",
   "type": "Microsoft.Blueprint/blueprints/artifacts",
-  "name": "create_keyvault"
+  "name": "artifact-template-keyvault--deploy"
 }

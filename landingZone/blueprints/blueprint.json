@@ -9,6 +9,27 @@
         },
         "defaultValue": "Contino"
       },
+      "key-vault-name": {
+        "type": "string",
+        "metadata": {
+          "description": "KeyVault Name"
+        },
+        "defaultValue": "Contino-sharedsvcs-kv"
+      },
+      "vNet-name": {
+        "type": "string",
+        "metadata": {
+          "description": "vNet Name"
+        },
+        "defaultValue": "Contino-vNET"
+      },
+      "oms-workspace-name": {
+        "type": "string",
+        "metadata": {
+          "description": "Log Analytics Name"
+        },
+        "defaultValue": "Contino-sharedsvcs-log"
+      },
       "AzureRegion": {
         "type": "string",
         "metadata": {
@@ -26,6 +47,14 @@
         },
         "defaultValue": "10.0"
       },
+      "SubscriptionId": {
+        "type": "string",
+        "metadata": {
+          "displayName": "Subscription Id",
+          "description": "SubscriptionId"
+        }
+      },
+
       "KV-AccessPolicy": {
         "type": "string",
         "metadata": {
@@ -55,6 +84,7 @@
           "displayName": "Azure Region used when establishing the Log Analytics workspace",
           "description": "LogAnalytics_Location"
         },
+        "defaultValue": "UK South",
         "allowedValues": [
           "UK South",
           "UK West"
@@ -69,7 +99,6 @@
           "displayName": "Resource Group for Shared Services"
         },
         "dependsOn": [
-
         ]
       },
       "Network-RG": {
@@ -77,16 +106,6 @@
         "location": "[parameters('AzureRegion')]",
         "metadata": {
           "displayName": "Resource Group for Networks"
-        },
-        "dependsOn": [
-
-        ]
-      },
-      "Migrate-RG": {
-        "name": "[concat(parameters('Organization_Name'),'-Migrate-rg')]",
-        "location": "[parameters('AzureRegion')]",
-        "metadata": {
-          "displayName": "Resource Group for Azure Migrate"
         },
         "dependsOn": [
 
