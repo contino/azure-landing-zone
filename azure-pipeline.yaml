@@ -23,7 +23,7 @@ stages:
     jobs:
       - job: BlueprintScript
         pool:
-          - vmImage: (vmImage)
+          vmImage: (vmImage)
         steps:
           - task: AzurePowerShell@4
             displayName: Run LZ Blueprint Task
