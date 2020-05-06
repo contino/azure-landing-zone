@@ -21,7 +21,7 @@ The CI/CD tooling of choice is Azure DevOps. The pipeline is constructed as pipe
 
 ## Blueprints
 
-####Prerequisites
+#### Prerequisites
 If you've never used Blueprints before, this can be little overwhelming. You can build your first blueprint with the UI to understand how everything works. You can try it at aka.ms/getblueprints and learn more about it in the docs or watch this <a href="https://www.youtube.com/watch?v=cQ9D-d6KkMY"> 15 minute overview.</a>
 
 **Download the <a href="https://powershellgallery.com/packages/Az.Blueprint/">Az.Blueprint module</a> from the powershell gallary:**
