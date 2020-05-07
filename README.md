@@ -22,6 +22,12 @@ To run the pipeline within your sandbox Azure DevOps & Azure Tenant create new p
 
 In order to create Management Groups with the service connection, add the service connection SPN within the Access Control at the default Tenant Root Group level. Add the SPN as Owner.
 
+To run create the resources via the blueprint user-assigned identity was created. The user-assigned object was then given permission from within the Management Group root level Blueprint Operator role & Contributor role. The Contributor role is to ensure the user-assgined object has permissions to create resources within the subscription.
+
+To create user-assigned object run you run:
+
+`az identity create --name $YOURNAME --resource-group $RESOURCE_GROUP_NAME --subscription $SUBSCRIPTIONID` 
+
 ## Blueprints
 
 #### Prerequisites
