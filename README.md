@@ -26,7 +26,11 @@ To run create the resources via the blueprint user-assigned identity was created
 
 To create user-assigned object run you run:
 
-`az identity create --name $YOURNAME --resource-group $RESOURCE_GROUP_NAME --subscription $SUBSCRIPTIONID` 
+`az identity create --name $NAME --resource-group $RESOURCE_GROUP_NAME --subscription $SUBSCRIPTIONID` 
+
+Add the newly created user-assigned object to the `Blueprint Operator` by running below az command.
+
+`az role assignment create --assignee $USER-ASSIGNED-OBJECT-ID --role 'Blueprint Operator''`
 
 ## Blueprints
 
