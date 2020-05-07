@@ -5,9 +5,6 @@
         "name": "RootLevel"
       },
       {
-        "name": "Test"
-      },
-      {
         "name": "Management",
         "parent": "RootLevel",
         "subscriptionId": "42fd229c-db07-42d3-be34-bc5c98826bc2"
