@@ -4,14 +4,18 @@ function New-MgmtGroup
     $file = (Get-ChildItem -Path "./mgmtGroup" | Where-Object {$_.Extension -eq ".json"})
     $loadVars = Get-Content -Path $file.FullName | ConvertFrom-Json
     $mgmtGroups = (Get-AzManagementGroup).DisplayName
-    Write-Host "List of Management Groups" + $mgmtGroups
-    Write-Host "JSON Object Set ..... +" $loadVars.MgmtGroup.GroupName
 
     foreach($obj in $loadVars.MgmtGroup.GroupName){
         if ($mgmtGroups -notcontains $obj.name) {
             if($obj.parent -eq $null) {
-                Write-Host "Creating New Management Group"
-                New-AzManagementGroup -GroupName $obj.name
+                Write-Host "Creating New Management Group $($obj.name)"
+                try{
+                    New-AzManagementGroup -GroupName $obj.name -ErrorAction Stop
+                }
+                catch {
+                    Write-Host $_.Exception.Message
+                }
+
 
              if($obj.subscriptionId -ne $null) {
                  Write-Host "Moving $($obj.subscriptionName) to $($obj.Name)"
@@ -24,11 +28,24 @@ function New-MgmtGroup
                 $mgmtGroups = (Get-AzManagementGroup).DisplayName
                 if($mgmtGroups -notcontains $obj.parent) {
                     Write-Host "Creating Parent Management Group"
-                    New-AzManagementGroup -GroupName $obj.name
+                    try{
+                        New-AzManagementGroup -GroupName $obj.name
+                    }
+                    catch  {
+                        Write-Host $_.Exception.Message
+                    }
                 }
                 Write-Host "Creating New Management Group Child"
                 $parentObject = Get-AzManagementGroup -GroupName $obj.parent
-                New-AzManagementGroup -GroupName $obj.Name -ParentObject $parentObject
+                try
+                {
+                    New-AzManagementGroup -GroupName $obj.Name -ParentObject $parentObject
+                }
+                catch
+                {
+                    Write-Host $_.Exception.Message
+                }
+
 
                 if($obj.subscriptionId -ne $null) {
                     Write-Host "Moving $($obj.subscriptionName) to $($obj.Name) Group"
@@ -40,7 +57,5 @@ function New-MgmtGroup
 
     }
 }
-Install-Module Az.Resources -Force -AllowClobber -RequiredVersion 1.13.0
-Import-Module Az.Resources
-Get-Module Az.Resources
-#New-MgmtGroup
+
+New-MgmtGroup
