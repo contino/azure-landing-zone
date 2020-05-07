@@ -15,4 +15,7 @@ $parameters = @{
     "SubscriptionId"="42fd229c-db07-42d3-be34-bc5c98826bc2"
 }
 
-New-AzBlueprintAssignment -Name "LandingZoneAssignment" -Blueprint $publishedBp -Location "UK South" -SubscriptionId "42fd229c-db07-42d3-be34-bc5c98826bc2" -Parameter $parameters
+
+$UserAssignedPrincipalId = "/subscriptions/42fd229c-db07-42d3-be34-bc5c98826bc2/resourceGroups/cloud-shell-storage-westeurope/providers/Microsoft.ManagedIdentity/userAssignedIdentities/blueprint"
+
+New-AzBlueprintAssignment -Name "LandingZoneAssignment" -Blueprint $publishedBp -Location "UK South" -SubscriptionId "42fd229c-db07-42d3-be34-bc5c98826bc2" -Parameter $parameters -UserAssignedIdentity $UserAssignedPrincipalId
