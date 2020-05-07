@@ -18,20 +18,20 @@ variables:
   serviceConnection: 'infra-demo'
 
 stages:
-#  - stage: ManagementGroup
-#    displayName: "Create or Update Management Group Task"
-#    jobs:
-#      - job: ManagementGroupScript
-#        pool:
-#          vmImage: $(vmImage)
-#        steps:
-#          - task: AzurePowerShell@4
-#            displayName: Run Management Group Task
-#            inputs:
-#              azureSubscription: $(serviceConnection)
-#              scriptType: 'filePath'
-#              scriptPath: './scripts/mgmtGroup.ps1'
-#              azurePowerShellVersion: latestVersion
+  - stage: ManagementGroup
+    displayName: "Create or Update Management Group Task"
+    jobs:
+      - job: ManagementGroupScript
+        pool:
+          vmImage: $(vmImage)
+        steps:
+          - task: AzurePowerShell@4
+            displayName: Run Management Group Task
+            inputs:
+              azureSubscription: $(serviceConnection)
+              scriptType: 'filePath'
+              scriptPath: './scripts/mgmtGroup.ps1'
+              azurePowerShellVersion: latestVersion
 
 
   - stage: LZBlueprint
