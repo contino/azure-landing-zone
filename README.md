@@ -17,7 +17,10 @@ Building the Landing Zone was using Azure Blueprints. You can find great example
 ## CI/CD Tool
 The CI/CD tooling of choice is Azure DevOps. The pipeline is constructed as pipeline as code, you can find the CI/CD pipeline within `azure-pipeline.yaml`
 
+## Getting Started
+To run the pipeline within your sandbox Azure DevOps & Azure Tenant create new project within Azure DevOps. Link the github repository to the project. Once done create new service connection to your Azure tenant.
 
+In order to create Management Groups with the service connection, add the service connection SPN within the Access Control at the default Tenant Root Group level. Add the SPN as Owner.
 
 ## Blueprints
 
@@ -124,14 +127,15 @@ To interact with Azure APIs, AKS cluster requires service principal. A service p
 
 Part of the infrastructure build service principal is created for the AKS cluster. The application id and the secret is then stored in the keyvault created to store the credentials. Once the container registry is created the container registry is then  attached to the AKS cluster.
 
-### Service Principal Creation
-Part of this pipeline the service connection account was given permission to create service principal account.
-Permission required to create service principal accounts using service principal are:
+#### Service Principal Creation
+Idea would be to have the pipeline to create SPN accounts in order to assign to resources such as AKS cluster. To create SPN account as a SPN you need to add permissions to your service connection account. Permission required to create service principal accounts using service principal are:
 * The Service Principal requires Owner permission to the subscription 
 * API access: Windows Azure Active Directory: "Manage apps that this app creates or owns" 
 * Microsoft Graph "Read and write directory data", "Access directory as the signed in user"
 
 The above permission can be found on the Supported legacy APIs `Azure Active Directory Graph`
 
-More information on creating service principal with existing service principal
-https://github.com/Azure/azure-powershell/issues/3215
+More information on creating service principal with existing service principal can be found
+<a href=https://github.com/Azure/azure-powershell/issues/3215>here</a>.
+
+Example of the working pipeline can be found on `extra-azure-pipeline.yaml`
