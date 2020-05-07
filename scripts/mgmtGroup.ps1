@@ -10,8 +10,14 @@ function New-MgmtGroup
     foreach($obj in $loadVars.MgmtGroup.GroupName){
         if ($mgmtGroups -notcontains $obj.name) {
             if($obj.parent -eq $null) {
-                Write-Host "Creating New Management Group"
-                New-AzManagementGroup -GroupName $obj.name
+                Write-Host "Creating New Management Group $($obj.name)"
+                try{
+                    New-AzManagementGroup -GroupName $obj.name -ErrorAction Stop
+                }
+                catch {
+                    Write-Host $_.Exception.Message
+                }
+
 
              if($obj.subscriptionId -ne $null) {
                  Write-Host "Moving $($obj.subscriptionName) to $($obj.Name)"
