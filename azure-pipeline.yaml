@@ -57,8 +57,7 @@ stages:
               scriptArguments:
                 -BlueprintName $(blueprintName) `
                 -mgmtGroupName $(mgmtGroupName) `
-                -version $(version) `
-                -KVAccessPolicy $(KVAccessPolicy)
+                -KVAccessPolicy $(KVAccessPolicy) `
                 -SubId $(SubId) `
                 -UserIdentity $(UserIdentity)
               azurePowerShellVersion: latestVersion

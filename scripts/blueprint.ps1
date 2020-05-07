@@ -4,8 +4,6 @@ param(
     [Parameter(Mandatory=$true)]
     [String]$mgmtGroupName,
     [Parameter(Mandatory=$true)]
-    [string]$version,
-    [Parameter(Mandatory=$true)]
     [String]$KVAccessPolicy,
     [Parameter(Mandatory=$true)]
     [String]$SubId,
@@ -42,14 +40,14 @@ function Set-LZBluePrint {
     [Parameter(Mandatory=$true)]
     [String]$mgmtGroupName,
     [Parameter(Mandatory=$true)]
-    [string]$version,
-    [Parameter(Mandatory=$true)]
     [String]$KVAccessPolicy,
     [Parameter(Mandatory=$true)]
     [String]$SubId,
     [Parameter(Mandatory=$true)]
     [String]$UserIdentity
     )
+
+    $version = Get-Date -format "yyyyMMddssmm"
 
     $bp_exists = Get-AzBlueprint -Name $BlueprintName -ManagementGroupId $mgmtGroupName -Version $version -ErrorAction SilentlyContinue
     if($null -eq $bp_exists){
