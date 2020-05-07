@@ -66,14 +66,14 @@ function Set-LZBluePrint {
             "KV-AccessPolicy"=$KVAccessPolicy;
             "SubscriptionId"=$SubId
         }
-        Write-Host "Assignment Name" + $($BlueprintName) + $($version)
-        New-AzBlueprintAssignment -Name $($BlueprintName) + $($version) -Blueprint $publishedBp -Location "UK South" -SubscriptionId $SubId -Parameter $parameters -UserAssignedIdentity $UserIdentity
+        Write-Host "Assignment Name + $($BlueprintName)$($version)"
+        New-AzBlueprintAssignment -Name "$($BlueprintName)$($version)" -Blueprint $publishedBp -Location "UK South" -SubscriptionId $SubId -Parameter $parameters -UserAssignedIdentity $UserIdentity
     }
     else
     {
         Write-Host "Blueprint Version exists"
-        Write-Host "Assignment Name" + $($BlueprintName) + $($version)
-        Set-AzBlueprintAssignment -Name $($BlueprintName) + $($version) -Blueprint $bp_exists -ManagementGroupId $mgmtGroupName -Parameter $parameters -UserAssignedIdentity $UserIdentity
+        Write-Host "Assignment Name + $($BlueprintName)$($version)"
+        Set-AzBlueprintAssignment -Name "$($BlueprintName)$($version)" -Blueprint $bp_exists -ManagementGroupId $mgmtGroupName -Parameter $parameters -UserAssignedIdentity $UserIdentity
     }
 }
 
