@@ -1,5 +1,5 @@
-#Install-Module Az.Blueprint -Force -AllowClobber
-#Import-Module Az.Blueprint
+Install-Module Az.Blueprint -Force -AllowClobber
+Import-Module Az.Blueprint
 
 #Push Blueprint definition to Azure
 
