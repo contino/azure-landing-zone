@@ -1,3 +1,18 @@
+param(
+    [Parameter(Mandatory=$true)]
+    [string]$BlueprintName,
+    [Parameter(Mandatory=$true)]
+    [String]$mgmtGroupName,
+    [Parameter(Mandatory=$true)]
+    [string]$version,
+    [Parameter(Mandatory=$true)]
+    [String]$KVAccessPolicy,
+    [Parameter(Mandatory=$true)]
+    [String]$SubId,
+    [Parameter(Mandatory=$true)]
+    [String]$UserIdentity
+)
+
 Install-Module Az.Blueprint -Force -AllowClobber
 Import-Module Az.Blueprint
 
@@ -19,20 +34,6 @@ Import-Module Az.Blueprint
 #$UserAssignedPrincipalId = "/subscriptions/42fd229c-db07-42d3-be34-bc5c98826bc2/resourceGroups/cloud-shell-storage-westeurope/providers/Microsoft.ManagedIdentity/userAssignedIdentities/blueprint"
 
 #New-AzBlueprintAssignment -Name "LandingZoneAssignment" -Blueprint $publishedBp -Location "UK South" -SubscriptionId "42fd229c-db07-42d3-be34-bc5c98826bc2" -Parameter $parameters -UserAssignedIdentity $UserAssignedPrincipalId
-param(
-    [Parameter(Mandatory=$true)]
-    [string]$BlueprintName,
-    [Parameter(Mandatory=$true)]
-    [String]$mgmtGroupName,
-    [Parameter(Mandatory=$true)]
-    [string]$version,
-    [Parameter(Mandatory=$true)]
-    [String]$KVAccessPolicy,
-    [Parameter(Mandatory=$true)]
-    [String]$SubId,
-    [Parameter(Mandatory=$true)]
-    [String]$UserIdentity
-)
 
 function Set-LZBluePrint {
     param(
