@@ -67,12 +67,12 @@ function Set-LZBluePrint {
             "SubscriptionId"=$SubId
         }
 
-        New-AzBlueprintAssignment -Name "$($BlueprintName)-$($version)" -Blueprint $publishedBp -Location "UK South" -SubscriptionId $SubId -Parameter $parameters -UserAssignedIdentity $UserIdentity
+        New-AzBlueprintAssignment -Name "$($BlueprintName)$($version)" -Blueprint $publishedBp -Location "UK South" -SubscriptionId $SubId -Parameter $parameters -UserAssignedIdentity $UserIdentity
     }
     else
     {
         Write-Host "Blueprint Version exists"
-        Set-AzBlueprintAssignment -Name "$($BlueprintName)-$($version)" -Blueprint $bp_exists -ManagementGroupId $mgmtGroupName -Parameter $parameters -UserAssignedIdentity $UserIdentity
+        Set-AzBlueprintAssignment -Name "$($BlueprintName)$($version)" -Blueprint $bp_exists -ManagementGroupId $mgmtGroupName -Parameter $parameters -UserAssignedIdentity $UserIdentity
     }
 }
 
