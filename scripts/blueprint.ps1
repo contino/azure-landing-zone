@@ -75,4 +75,4 @@ function Set-LZBluePrint {
     }
 }
 
-Set-LZBluePrint -BlueprintName $BlueprintName -mgmtGroupName $mgmtGroupName $version -KVAccessPolicy $KVAccessPolicy -SubId $SubId -UserIdentity $UserIdentity
+Set-LZBluePrint -BlueprintName $BlueprintName -mgmtGroupName $mgmtGroupName -KVAccessPolicy $KVAccessPolicy -SubId $SubId -UserIdentity $UserIdentity
