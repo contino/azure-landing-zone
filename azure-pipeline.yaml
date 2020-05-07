@@ -40,6 +40,13 @@ stages:
       - job: BlueprintScript
         pool:
           vmImage: $(vmImage)
+        variables:
+          blueprintName: "LandingZone"
+          mgmtGroupName: "Management"
+          version: $(Build.BuildNumber)
+          KVAccessPolicy: "ef044b03-2a5d-4251-96ee-e6065b0d3b3b"
+          SubId: "2fd229c-db07-42d3-be34-bc5c98826bc2"
+          UserIdentity: "/subscriptions/$(SubId)/resourceGroups/cloud-shell-storage-westeurope/providers/Microsoft.ManagedIdentity/userAssignedIdentities/blueprint"
         steps:
           - task: AzurePowerShell@4
             displayName: Run LZ Blueprint Task
@@ -47,4 +54,11 @@ stages:
               azureSubscription: $(serviceConnection)
               scriptType: 'filePath'
               scriptPath: './scripts/blueprint.ps1'
+              scriptArguments:
+                -BlueprintName $(blueprintName) `
+                -mgmtGroupName $(mgmtGroupName) `
+                -version $(version) `
+                -KVAccessPolicy $(KVAccessPolicy)
+                -SubId $(SubId) `
+                -UserIdentity $(UserIdentity)
               azurePowerShellVersion: latestVersion
