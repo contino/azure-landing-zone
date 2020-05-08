@@ -40,6 +40,8 @@ To run the pipeline the values below are the values you will need to change with
 * SubId
 * UserIdentity
 
+**Before running the management group step change the value of the subscriptionID within `.\mgmtGroup\management.json`**
+
 ## Blueprints
 
 #### Prerequisites
@@ -130,10 +132,6 @@ The RootLevel is implemented underneath tenant level subsequent groups are then 
 ![Azure Management Group](https://docs.microsoft.com/en-us/azure/governance/management-groups/media/tree.png)
 
 The above image RootLevel is "Root Management Group"
-
-**Before running the management group step change the value of the subscriptionID within `.\mgmtGroup\management.json`**
-
-
 
 ## Extra Resources
 Part of the repository you will find ARM Template building out resources such as:
