@@ -18,7 +18,7 @@ Building the Landing Zone was using Azure Blueprints. You can find great example
 The CI/CD tooling of choice is Azure DevOps. The pipeline is constructed as pipeline as a code, which can be located within `azure-pipeline.yaml` file
 
 ## Getting Started
-To run the pipeline within your sandbox Azure DevOps & Azure Tenant create new project within Azure DevOps. Link the github repository to the project. Once done create new service connection to your Azure tenant.
+To run the pipeline within your sandbox Azure DevOps & Azure Tenant create new project within Azure DevOps. Link the github repository to the project once done create new service connection to your Azure tenant.
 
 In order to create Management Groups with the service connection, add the service connection SPN within the Access Control at the default Tenant Root Group level. Add the SPN as a Owner.
 
