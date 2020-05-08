@@ -15,24 +15,24 @@ More information on Azure Landing zone can be found <a href=https://docs.microso
 Building the Landing Zone was using Azure Blueprints. You can find great examples of Azure Blueprints <a href=https://github.com/Azure/azure-blueprints> here</a>
 
 ## CI/CD Tool
-The CI/CD tooling of choice is Azure DevOps. The pipeline is constructed as pipeline as code, you can find the CI/CD pipeline within `azure-pipeline.yaml`
+The CI/CD tooling of choice is Azure DevOps. The pipeline is constructed as pipeline as a code, which can be located within `azure-pipeline.yaml` file
 
 ## Getting Started
 To run the pipeline within your sandbox Azure DevOps & Azure Tenant create new project within Azure DevOps. Link the github repository to the project. Once done create new service connection to your Azure tenant.
 
 In order to create Management Groups with the service connection, add the service connection SPN within the Access Control at the default Tenant Root Group level. Add the SPN as a Owner.
 
-To create the resources via the blueprint user-assigned identity object was created. The user-assigned object was then given permission at Management Group root level Blueprint Operator role & Contributor role. The Contributor role is to ensure the user-assgined object has permissions to create resources within the subscription.
+To create the resources via the blueprint user-assigned identity object was created. The user-assigned object was then given permission at Management Group root level as a Blueprint Operator role & Contributor role. The Contributor role is to ensure the user-assigned object has permissions to create resources within the subscription.
 
 Below is the command to create user assigned object:
 
 `az identity create --name $NAME --resource-group $RESOURCE_GROUP_NAME --subscription $SUBSCRIPTIONID` 
 
-Add the newly created user-assigned object to the `Blueprint Operator` by running below az command.
+Add the newly created user-assigned object to the `Blueprint Operator` role by running below az command.
 
 `az role assignment create --assignee USER_ASSIGNED_OBJECT_ID --role "Blueprint Operator"`
 
-To run the pipeline the values below are the values you will need to change within the `azure-pipeline.yaml`:
+To run the pipeline the variables below are the values that will need changing within the `azure-pipeline.yaml`:
 * serviceConnection
 * blueprintName
 * mgmtGroupName
@@ -100,7 +100,7 @@ Blueprint directory
 ##### Blueprint Folder
 The blueprint folder can be found `landingZone\blueprints`. Running the pipeline will execute `.\scripts\blueprint.ps1`
 
-The script is taking two parameters which are stored as hash table. The `KV-AccessPolicy` is the object ID of the Azure DevOps service connection (SPN) that assigns itself access once the Key Vault is created. The `SubscriptionId` is part of the resourceId when adding diagnostic settings to each of the resources. 
+The script is taking two parameters which are stored as hash table. The `KV-AccessPolicy` is the object ID of the SPN that assigns itself access once the Key Vault is created. The `SubscriptionId` is part of the resourceId when adding diagnostic settings to each of the resources. 
 
 ## Management Groups
 As part of the repository having there is example of implementing Management Groups within Azure. The powershell script is located within `.\scripts\mgmtGroup.ps1` The script will look for json file located within `.\mgmtGroup\management.json` 
