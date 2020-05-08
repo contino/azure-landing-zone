@@ -20,17 +20,25 @@ The CI/CD tooling of choice is Azure DevOps. The pipeline is constructed as pipe
 ## Getting Started
 To run the pipeline within your sandbox Azure DevOps & Azure Tenant create new project within Azure DevOps. Link the github repository to the project. Once done create new service connection to your Azure tenant.
 
-In order to create Management Groups with the service connection, add the service connection SPN within the Access Control at the default Tenant Root Group level. Add the SPN as Owner.
+In order to create Management Groups with the service connection, add the service connection SPN within the Access Control at the default Tenant Root Group level. Add the SPN as a Owner.
 
-To run create the resources via the blueprint user-assigned identity was created. The user-assigned object was then given permission from within the Management Group root level Blueprint Operator role & Contributor role. The Contributor role is to ensure the user-assgined object has permissions to create resources within the subscription.
+To create the resources via the blueprint user-assigned identity object was created. The user-assigned object was then given permission at Management Group root level Blueprint Operator role & Contributor role. The Contributor role is to ensure the user-assgined object has permissions to create resources within the subscription.
 
-To create user-assigned object run you run:
+Below is the command to create user assigned object:
 
 `az identity create --name $NAME --resource-group $RESOURCE_GROUP_NAME --subscription $SUBSCRIPTIONID` 
 
 Add the newly created user-assigned object to the `Blueprint Operator` by running below az command.
 
-`az role assignment create --assignee $USER-ASSIGNED-OBJECT-ID --role 'Blueprint Operator''`
+`az role assignment create --assignee USER_ASSIGNED_OBJECT_ID --role "Blueprint Operator"`
+
+To run the pipeline the values below are the values you will need to change within the `azure-pipeline.yaml`:
+* serviceConnection
+* blueprintName
+* mgmtGroupName
+* KVAccessPolicy
+* SubId
+* UserIdentity
 
 ## Blueprints
 
@@ -112,7 +120,7 @@ As part of the repository having there is example of implementing Management Gro
 }
 ```
 
-Each child consits details of the management group to be created the above examples shows management groups called:
+Each child consists details of the management group to be created the above examples shows management groups called:
 
 * RootLevel
 * Management
@@ -122,6 +130,8 @@ The RootLevel is implemented underneath tenant level subsequent groups are then 
 ![Azure Management Group](https://docs.microsoft.com/en-us/azure/governance/management-groups/media/tree.png)
 
 The above image RootLevel is "Root Management Group"
+
+**Before running the management group step change the value of the subscriptionID within `.\mgmtGroup\management.json`**
 
 
 
