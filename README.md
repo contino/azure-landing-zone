@@ -1,6 +1,6 @@
 # Azure Landing Zone
 
-## Building Infrastructure Platform
+## Building LZ Platform
 PoC/Lighthouse project at a potential new prospector. This is to create Landing Zone within Azure. The Landing Zone will consist of:
 * Key Vault
 * vNet
