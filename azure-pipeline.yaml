@@ -40,7 +40,7 @@ stages:
           KVAccessPolicy: $(KVAccessPolicy)
           SubId: $(SubId)
           bluePrintRG: "azure-devops"
-          UserIdentity: "/subscriptions/$(SubId)/resourceGroups/$(bluePrintRG)/providers/Microsoft.ManagedIdentity/userAssignedIdentities/blueprint"
+          UserIdentity: "/subscriptions/$env:SUBID/resourceGroups/$(bluePrintRG)/providers/Microsoft.ManagedIdentity/userAssignedIdentities/blueprint"
         steps:
           - task: AzurePowerShell@4
             displayName: Run LZ Blueprint Task
@@ -51,7 +51,7 @@ stages:
               scriptArguments:
                 -BlueprintName $(blueprintName) `
                 -mgmtGroupName $(mgmtGroupName) `
-                -KVAccessPolicy $(KVAccessPolicy) `
-                -SubId $(SubId) `
+                -KVAccessPolicy $env:KVACCESSPOLICY `
+                -SubId $env:SUBID `
                 -UserIdentity $(UserIdentity)
               azurePowerShellVersion: latestVersion
