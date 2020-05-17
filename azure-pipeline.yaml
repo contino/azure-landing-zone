@@ -8,7 +8,7 @@ trigger:
       - README.md
 variables:
   vmImage: 'ubuntu-latest'
-  serviceConnection: 'infra-demo'
+  serviceConnection: 'azure-landing-zone'
 
 stages:
   - stage: ManagementGroup
