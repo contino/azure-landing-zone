@@ -44,8 +44,6 @@ stages:
         steps:
           - task: AzurePowerShell@4
             displayName: Run LZ Blueprint Task
-            env:
-              KVObjectID: $(KVAccessPolicy)
             inputs:
               azureSubscription: $(serviceConnection)
               scriptType: 'filePath'
@@ -54,6 +52,6 @@ stages:
                 -BlueprintName $(blueprintName) `
                 -mgmtGroupName $(mgmtGroupName) `
                 -KVAccessPolicy $env:KVACCESSPOLICY `
-                -SubId $(SubId) `
+                -SubId $env:SUBID `
                 -UserIdentity $(UserIdentity)
               azurePowerShellVersion: latestVersion
