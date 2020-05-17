@@ -15,18 +15,6 @@ Install-Module Az.Blueprint -Force -AllowClobber
 Import-Module Az.Blueprint
 
 function Set-LZBluePrint {
-    param(
-    [Parameter(Mandatory=$true)]
-    [string]$BlueprintName,
-    [Parameter(Mandatory=$true)]
-    [String]$mgmtGroupName,
-    [Parameter(Mandatory=$true)]
-    [String]$KVAccessPolicy,
-    [Parameter(Mandatory=$true)]
-    [String]$SubId,
-    [Parameter(Mandatory=$true)]
-    [String]$UserIdentity
-    )
 
     $version = Get-Date -format "yyyyMMddssmm"
 
@@ -46,7 +34,7 @@ function Set-LZBluePrint {
             "SubscriptionId"=$SubId
         }
         Write-Host "Assignment Name + $($BlueprintName)$($version)"
-        New-AzBlueprintAssignment -Name "$($BlueprintName)$($version)" -Blueprint $publishedBp -Location "UK South" -SubscriptionId $env:SUBID -Parameter $parameters -UserAssignedIdentity $UserIdentity
+        New-AzBlueprintAssignment -Name "$($BlueprintName)$($version)" -Blueprint $publishedBp -Location "UK South" -SubscriptionId $SubId -Parameter $parameters -UserAssignedIdentity $UserIdentity
     }
     else
     {
@@ -56,4 +44,4 @@ function Set-LZBluePrint {
     }
 }
 
-Set-LZBluePrint -BlueprintName $BlueprintName -mgmtGroupName $mgmtGroupName -KVAccessPolicy $KVAccessPolicy -SubId $SubId -UserIdentity $UserIdentity
+Set-LZBluePrint
